@@ -16,10 +16,7 @@ int main(int argc, char *argv[])
     }
 
     FILE *file = fopen(argv[1], "r"); //opening the given raw file
-    if (file == NULL)
-    {
-        return 1;
-    }
+   
     bool found_first_jpg = false;
     int count = 0;
     FILE *ofile; //initializing ofile
@@ -35,20 +32,16 @@ int main(int argc, char *argv[])
                 fclose(ofile);
             }
             char filename[8];
-            sprintf(filename, "%03i.jpg", count++); //giving ofile name
+            sprintf(filename, "%03i.jpg", count); //giving ofile name
             ofile = fopen(filename, "w");//opening ofile to write data
-            if (ofile == NULL)
-            {
-                return 1;
-            }
+           
             fwrite(bytes, BUFFER_SIZE, 1, ofile); //writing data to ofile
         }
         else if (found_first_jpg) //if no new jpeg is found
         {
             fwrite(bytes, BUFFER_SIZE, 1, ofile); //continue wtiting to the same file
         }
-    fclose(ofile); //closing ofile
-    fclose(file); //closing infile
+   
 }
 
 bool is_new_jpeg(unsigned char bytes[]) //function to check jpeg headers
